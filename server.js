@@ -5244,9 +5244,19 @@ cache(function(data, match, sendBadge, request) {
     user = 'library';
   }
   var path = user + '/' + repo;
-  var url = 'https://registry.hub.docker.com/v2/repositories/' + path + '/buildhistory';
   var badgeData = getBadgeData('docker build', data);
-  request(url, function(err, res, buffer) {
+
+  var options = {
+    method: 'GET',
+    json: true,
+    uri: 'https://registry.hub.docker.com/v2/repositories/' + path + '/buildhistory'
+  };
+  if (serverSecrets && serverSecrets.docker_hub_token) {
+    options.auth = {
+      bearer: serverSecrets.docker_hub_token
+    };
+  }
+  request(options, function(err, res, buffer) {
     if (err != null) {
       badgeData.text[1] = 'inaccessible';
       sendBadge(format, badgeData);
