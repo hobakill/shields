@@ -5248,7 +5248,6 @@ cache(function(data, match, sendBadge, request) {
 
   var options = {
     method: 'GET',
-    json: true,
     uri: 'https://registry.hub.docker.com/v2/repositories/' + path + '/buildhistory'
   };
   if (serverSecrets && serverSecrets.docker_hub_token) {
